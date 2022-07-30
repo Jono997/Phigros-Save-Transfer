@@ -60,7 +60,8 @@ namespace PhigrosSaveTransfer
 
         internal static void Init()
         {
-            NoADBKill = Environment.GetCommandLineArgs()[1] == "noadbkill";
+            string[] args = Environment.GetCommandLineArgs();
+            NoADBKill = (args.Length > 1 && args[1] == "noadbkill");
 
             #region Initialise paths
             Paths.Root       = Path.GetFullPath(Path.Combine(Environment.GetCommandLineArgs()[0], ".."));
@@ -279,7 +280,7 @@ namespace PhigrosSaveTransfer
             ABEPath = Path.Combine(Global.Paths.Data, "abe.jar");
             ADBPath = Path.Combine(Global.Paths.Data, "adb.exe");
             TarPath = "tar";
-            GoodBackupSize = 7000 * 1204;
+            GoodBackupSize = 7500 * 1000;
         }
     }
 }
