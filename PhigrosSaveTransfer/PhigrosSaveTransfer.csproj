@@ -59,6 +59,7 @@
     <Compile Include="ApplyBackupForm.Designer.cs">
       <DependentUpon>ApplyBackupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AppVersion.cs" />
     <Compile Include="BackupData.cs" />
     <Compile Include="BackupPasswordForm.cs">
       <SubType>Form</SubType>
@@ -137,6 +138,9 @@
     <None Include="appid">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="keys.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="PST_Data\abe.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

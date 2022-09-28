@@ -51,6 +51,8 @@ namespace PhigrosSaveTransfer
 
         internal static Dictionary<string, BackupData.BackupOrigin> ManifestKeys;
 
+        internal static AppVersion[] AppVersions;
+
         internal static List<BackupData> backups;
 
         /// <summary>
@@ -79,6 +81,8 @@ namespace PhigrosSaveTransfer
             CleanWorkingDirectory();
 
             #region Load manifest keys
+            AppVersions = ReadXML<AppVersion[]>("keys.xml");
+
             ManifestKeys = new Dictionary<string, BackupData.BackupOrigin>();
             ManifestKeys.Add(File.ReadAllText(Path.Combine(Paths.Root, "taptap.key")), BackupData.BackupOrigin.TapTap);
             ManifestKeys.Add(File.ReadAllText(Path.Combine(Paths.Root, "googleplay.key")), BackupData.BackupOrigin.GooglePlay);
