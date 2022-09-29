@@ -40,7 +40,7 @@ namespace PhigrosSaveTransfer
                     Global.CMD($@"""{Global.Paths.Java}"" -jar ""{Global.Paths.ABE}"" unpack backup.ab backup.tar", Global.Paths.Working);
                 string filelist = Global.CMD($@"""{Global.Paths.Tar}"" -tf backup.tar", Global.Paths.Working);
                 filelist = filelist.Replace(data.appVersion.AppID, target.AppID);
-                File.WriteAllText("package.list", filelist);
+                File.WriteAllText(Path.Combine(Global.Paths.Working, "package.list"), filelist);
                 Global.CMD($@"""{Global.Paths.Tar}"" -xf backup.tar", Global.Paths.Working);
 
                 Directory.Move(Path.Combine(Global.Paths.Working, "apps", data.appVersion.AppID), Path.Combine(Global.Paths.Working, "apps", target.AppID));
