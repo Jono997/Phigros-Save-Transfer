@@ -67,6 +67,12 @@
     <Compile Include="BackupPasswordForm.Designer.cs">
       <DependentUpon>BackupPasswordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CreateBackupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateBackupForm.Designer.cs">
+      <DependentUpon>CreateBackupForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeviceErrorDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ApplyBackupForm.resx">
       <DependentUpon>ApplyBackupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateBackupForm.resx">
+      <DependentUpon>CreateBackupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BackupPasswordForm.resx">
       <DependentUpon>BackupPasswordForm.cs</DependentUpon>

@@ -52,36 +52,8 @@ namespace PhigrosSaveTransfer
 
         private void createBackupButton_Click(object sender, EventArgs e)
         {
-            Global.ADB("backup -f backup.ab com.PigeonGames.Phigros", Global.Paths.Working);
-            string backup_path = Path.Combine(Global.Paths.Working, "backup.ab");
-            if (!File.Exists(backup_path))
-            {
-                MessageBox.Show("Backup failed. Backup file not found.", "backup.ab not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            FileInfo backup_info = new FileInfo(backup_path);
-            if (backup_info.Length < Global.settings.GoodBackupSize)
-            {
-                if (MessageBox.Show($"This backup is a low filesize ({backup_info.Length / 1000} KB). Usually, backups below 7,500 KB are incomplete or corrupted.\nStore this backup anyway?", "Low backup size", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-                {
-                    File.Delete(backup_path);
-                    return;
-                }
-            }
-            BackupPasswordForm bpf = new BackupPasswordForm();
-            if (bpf.ShowDialog() == DialogResult.OK)
-            {
-                File.Move(backup_path, Global.Paths.Backup(bpf.data.Name));
-                Global.backups.Add(bpf.data);
-                Global.WriteXML(Global.Paths.BackupData, Global.backups);
-                Global.CleanWorkingDirectory();
-                MessageBox.Show("Backup successful");
+            if (new CreateBackupForm().ShowDialog() == DialogResult.OK)
                 RefreshBackupsListBox();
-            }
-            else
-            {
-                File.Delete(backup_path);
-            }
         }
 
         private void deleteBackupButton_Click(object sender, EventArgs e)

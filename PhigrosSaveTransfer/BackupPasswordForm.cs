@@ -14,8 +14,13 @@ namespace PhigrosSaveTransfer
     {
         internal BackupData data;
 
-        public BackupPasswordForm()
+        public BackupPasswordForm(string backup_name, AppVersion app_version)
         {
+            data = new BackupData()
+            {
+                Name = backup_name,
+                appVersion = app_version
+            };
             DialogResult = DialogResult.Cancel;
             InitializeComponent();
         }
@@ -27,9 +32,9 @@ namespace PhigrosSaveTransfer
 
         private void confirmButton_Click(object sender, EventArgs e)
         {
-            data = new BackupData();
             if (noPasswordRadioButton.Checked)
             {
+                data.HasPassword = false;
                 Global.CMD($@"""{Global.Paths.Java}"" -jar ""{Global.Paths.ABE}"" unpack backup.ab backup.tar", Global.Paths.Working);
                 if (!File.Exists(Path.Combine(Global.Paths.Working, "backup.tar")))
                 {
@@ -48,11 +53,6 @@ namespace PhigrosSaveTransfer
                     return;
                 }
             }
-            Global.CMD($@"""{Global.Paths.Tar}"" -xf backup.tar", Global.Paths.Working);
-            string manifest_key = Global.GetManifestKey();
-            foreach (string mk in Global.ManifestKeys.Keys)
-                if (manifest_key == mk)
-                    data.Origin = Global.ManifestKeys[mk];
             DialogResult = DialogResult.OK;
             Close();
         }

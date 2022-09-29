@@ -15,7 +15,7 @@ namespace PhigrosSaveTransfer
 
         internal static class Paths
         {
-            internal static string Root, Data, Working, Settings, BackupsDir, BackupData, LogDir, Log, Manifest;
+            internal static string Root, Data, Working, Settings, BackupsDir, BackupData, LogDir, Log;
 
             internal static string Java { get { return settings.JavaPath; } }
             internal static string ADB { get { return settings.ADBPath; } }
@@ -49,8 +49,6 @@ namespace PhigrosSaveTransfer
             }
         }
 
-        internal static Dictionary<string, BackupData.BackupOrigin> ManifestKeys;
-
         internal static AppVersion[] AppVersions;
 
         internal static List<BackupData> backups;
@@ -74,19 +72,12 @@ namespace PhigrosSaveTransfer
             Paths.BackupData = Path.Combine(Paths.Data, "backupdata.xml");
             Paths.LogDir     = Path.Combine(Paths.Data, "logs");
             Paths.Log        = Path.Combine(Paths.LogDir, $"{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}.log");
-            Paths.Manifest   = Path.Combine(Paths.Working, "apps", File.ReadAllText(Path.Combine(Paths.Root, "appid")), "_manifest");
             #endregion
 
             // Working directory cleanup (in case PST crashes while there's files in there)
             CleanWorkingDirectory();
-
-            #region Load manifest keys
+            
             AppVersions = ReadXML<AppVersion[]>("keys.xml");
-
-            ManifestKeys = new Dictionary<string, BackupData.BackupOrigin>();
-            ManifestKeys.Add(File.ReadAllText(Path.Combine(Paths.Root, "taptap.key")), BackupData.BackupOrigin.TapTap);
-            ManifestKeys.Add(File.ReadAllText(Path.Combine(Paths.Root, "googleplay.key")), BackupData.BackupOrigin.GooglePlay);
-            #endregion
 
             #region Ensure directories exist
             Directory.CreateDirectory(Paths.BackupsDir);
@@ -198,11 +189,6 @@ namespace PhigrosSaveTransfer
         internal static void KillADB()
         {
             KillADB(false);
-        }
-
-        internal static string GetManifestKey()
-        {
-            return File.ReadAllLines(Paths.Manifest)[7];
         }
 
         #region Tests
