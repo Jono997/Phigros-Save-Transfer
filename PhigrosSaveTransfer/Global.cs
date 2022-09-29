@@ -100,14 +100,7 @@ namespace PhigrosSaveTransfer
                 backups = new List<BackupData>();
             #endregion
 
-            #region Run tests
-            TestJava();
-            if (TestADB())
-                TestDevice();
-            else
-                FunctionalSystems.Device = false;
-            TestTar();
-            #endregion
+            TestAll();
         }
 
         /// <summary>
@@ -192,6 +185,16 @@ namespace PhigrosSaveTransfer
         }
 
         #region Tests
+        internal static void TestAll()
+        {
+            TestJava();
+            if (TestADB())
+                TestDevice();
+            else
+                FunctionalSystems.Device = false;
+            TestTar();
+        }
+
         internal static bool TestJava()
         {
             bool result = CMD($@"""{Paths.Java}"" -jar ""{Paths.Data}\javatest.jar""").Contains("Java detected");
