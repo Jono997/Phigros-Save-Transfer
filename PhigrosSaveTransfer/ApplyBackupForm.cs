@@ -43,8 +43,10 @@ namespace PhigrosSaveTransfer
                 File.WriteAllText(Path.Combine(Global.Paths.Working, "package.list"), filelist);
                 Global.CMD($@"""{Global.Paths.Tar}"" -xf backup.tar", Global.Paths.Working);
 
-                Directory.Move(Path.Combine(Global.Paths.Working, "apps", data.appVersion.AppID), Path.Combine(Global.Paths.Working, "apps", target.AppID));
-                string manifest_path = Path.Combine(Global.Paths.Working, "apps", target.AppID, "_manifest");
+                string apps_dir = Path.Combine(Global.Paths.Working, "apps");
+                if (data.appVersion.AppID != target.AppID)
+                    Directory.Move(Path.Combine(apps_dir, data.appVersion.AppID), Path.Combine(apps_dir, target.AppID));
+                string manifest_path = Path.Combine(apps_dir, target.AppID, "_manifest");
                 string[] manifest = File.ReadAllText(manifest_path).Split('\n');
                 manifest[1] = target.AppID;
                 manifest[7] = target.Signature;
@@ -53,7 +55,7 @@ namespace PhigrosSaveTransfer
                     manifest_output += $"{line}\n";
                 File.WriteAllText(manifest_path, manifest_output);
 
-                string playerprefs_base_path = Path.Combine(Global.Paths.Working, "apps", target.AppID, "sp");
+                string playerprefs_base_path = Path.Combine(apps_dir, target.AppID, "sp");
                 File.Move(Path.Combine(playerprefs_base_path, data.appVersion.AppID + ".v2.playerprefs.xml"), Path.Combine(playerprefs_base_path, target.AppID + ".v2.playerprefs.xml"));
 
                 File.Delete(Path.Combine(Global.Paths.Working, "backup.ab"));
